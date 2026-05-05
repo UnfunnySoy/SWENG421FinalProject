@@ -12,42 +12,40 @@ import java.util.List;
  *   STATUS_DEPARTED    = 2
  *   STATUS_MAINTENANCE = 3
  */
-public class Vehicle implements ObservableIF {
+public class Vehicle extends WarehouseComposite {
     public static final int STATUS_DOCKED      = 0;
     public static final int STATUS_LOADING     = 1;
     public static final int STATUS_DEPARTED    = 2;
     public static final int STATUS_MAINTENANCE = 3;
 
     private int    status;
-    private String vehicleId;
-    private String driverName;
     private double capacityKg;
     private int    condition; // editable condition value (0-100)
 
     private List<Order> orders;
-    private ArrayList<ObserverIF> observers;
 
-    public Vehicle(String vehicleId, String driverName, double capacityKg) {
-        this.vehicleId   = vehicleId;
-        this.driverName  = driverName;
+    public Vehicle(double capacityKg) {
+        this.id = generateId();
         this.capacityKg  = capacityKg;
         this.condition   = 100;
         this.status      = STATUS_DOCKED;
         this.orders      = new ArrayList<>();
-        this.observers   = new ArrayList<>();
     }
 
-    // ---- Editable fields ----
+    @Override
+    protected String generateId(){
+        String baseID = super.generateId();
+        return "V" + baseID;
+    }
+
     public int  getCondition()           { return condition; }
     public void setCondition(int cond)   { this.condition = cond; }
 
-    public String getDriverName()        { return driverName; }
-    public void   setDriverName(String d){ this.driverName = d; }
-
-    // ---- Orders ----
-    public void addOrder(Order o)    { orders.add(o); o.setShippingVehicle(this); }
-    public void removeOrder(Order o) { orders.remove(o); o.setShippingVehicle(null); }
+    public void addOrder(Order o)    { orders.add(o); }
+    public void removeOrder(Order o) { orders.remove(o); }
     public List<Order> getOrders()   { return orders; }
+
+    public double getCapacityKg() { return capacityKg; }
 
     public double getLoadedWeightKg() {
         double total = 0;
@@ -55,28 +53,10 @@ public class Vehicle implements ObservableIF {
         return total;
     }
 
-    // ---- Identifiers ----
-    public String getVehicleId()  { return vehicleId; }
-    public double getCapacityKg() { return capacityKg; }
-
-    // ---- ObservableIF ----
-    @Override public void addObserver(ObserverIF o)    { observers.add(o); }
-    @Override public void removeObserver(ObserverIF o) { observers.remove(o); }
-
     @Override
     public void doAction() {
-        String label = statusLabel();
-        for (ObserverIF o : observers) {
-            o.notify("Observer: " + vehicleId + " status → " + label, "Vehicle");
-        }
-    }
-
-    @Override public int checkStatus() { return status; }
-
-    @Override
-    public void updateStatus(int status) {
-        this.status = status;
-        doAction();
+        //TODO: add action implementation for Vehicle
+        multicaster.notify();
     }
 
     public String statusLabel() {
@@ -87,10 +67,5 @@ public class Vehicle implements ObservableIF {
             case STATUS_MAINTENANCE: return "MAINTENANCE";
             default:                 return "UNKNOWN";
         }
-    }
-
-    @Override
-    public String toString() {
-        return vehicleId + " [" + statusLabel() + "] driver=" + driverName;
     }
 }

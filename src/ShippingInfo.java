@@ -1,7 +1,3 @@
-/**
- * ShippingInfo
- * Holds shipping destination details for a package.
- */
 public class ShippingInfo {
     private String name;
     private String address;

@@ -15,7 +15,7 @@ import java.util.List;
  *   STATUS_PREPARED = 1  (marked prepared for shipping)
  *   STATUS_SHIPPED  = 2
  */
-public class Order implements ObservableIF {
+public class Order extends WarehouseComposite implements ObservableIF {
     public static final int TYPE_RETAIL    = 0;
     public static final int TYPE_WHOLESALE = 1;
 
@@ -23,43 +23,20 @@ public class Order implements ObservableIF {
     public static final int STATUS_PREPARED = 1;
     public static final int STATUS_SHIPPED  = 2;
 
-    private int    status;
-    private int    orderType;
-    private String orderId;
-    private String deliveryLocation;
-    private String deliveryPerson;
-    private Vehicle shippingVehicle;       // editable
-    private final WarehouseComposite warehouse; // unchangeable
+    private int orderType;
 
     private List<PackageWrapper> packages;
-    private ArrayList<ObserverIF> observers;
 
     public Order(String orderId, int orderType, String deliveryLocation,
                  String deliveryPerson, WarehouseComposite warehouse) {
-        this.orderId          = orderId;
         this.orderType        = orderType;
-        this.deliveryLocation = deliveryLocation;
-        this.deliveryPerson   = deliveryPerson;
-        this.warehouse        = warehouse;
         this.status           = STATUS_PENDING;
         this.packages         = new ArrayList<>();
-        this.observers        = new ArrayList<>();
     }
 
-    // ---- Editable fields ----
-    public String getDeliveryLocation()               { return deliveryLocation; }
-    public void   setDeliveryLocation(String loc)     { this.deliveryLocation = loc; }
-
-    public String getDeliveryPerson()                 { return deliveryPerson; }
-    public void   setDeliveryPerson(String person)    { this.deliveryPerson = person; }
-
-    public Vehicle getShippingVehicle()               { return shippingVehicle; }
-    public void    setShippingVehicle(Vehicle v)      { this.shippingVehicle = v; }
-
-    // ---- Package list ----
-    public void addPackageWrapper(PackageWrapper pw)    { packages.add(pw); }
-    public void removePackageWrapper(PackageWrapper pw) { packages.remove(pw); }
-    public List<PackageWrapper> getPackages()           { return packages; }
+    public void addPackage(PackageWrapper p)    { packages.add(p); }
+    public void removePackage(PackageWrapper p) { packages.remove(p); }
+    public List<PackageWrapper> getPackages() { return packages; }
 
     public double getTotalWeight() {
         double total = 0;
@@ -67,43 +44,19 @@ public class Order implements ObservableIF {
         return total;
     }
 
-    // ---- Immutable field ----
-    public WarehouseComposite getWarehouse() { return warehouse; }
+    public int getOrderType(){ return orderType; }
 
-    // ---- Identifiers ----
-    public String getOrderId()  { return orderId; }
-    public int    getOrderType(){ return orderType; }
-
-    /** Mark the order as prepared for shipping (status → PREPARED). */
     public void markPrepared() {
-        updateStatus(STATUS_PREPARED);
+        setStatus(STATUS_PREPARED);
     }
 
     // ---- ObservableIF ----
-    @Override public void addObserver(ObserverIF o)    { observers.add(o); }
-    @Override public void removeObserver(ObserverIF o) { observers.remove(o); }
+    @Override public void addObserver(ObserverIF o)    { multicaster.addObserver(o); }
+    @Override public void removeObserver(ObserverIF o) { multicaster.removeObserver(o); }
 
     @Override
     public void doAction() {
-        String statusLabel = status == STATUS_PENDING  ? "PENDING"
-                           : status == STATUS_PREPARED ? "PREPARED"
-                           : "SHIPPED";
-        for (ObserverIF o : observers) {
-            o.notify("Order " + orderId + " status → " + statusLabel, "Order");
-        }
-    }
-
-    @Override public int checkStatus() { return status; }
-
-    @Override
-    public void updateStatus(int status) {
-        this.status = status;
-        doAction();
-    }
-
-    @Override
-    public String toString() {
-        String type = (orderType == TYPE_RETAIL) ? "Retail Order" : "Wholesale Order";
-        return type + " #" + orderId;
+        multicaster.notify();
+        //TODO: add action implementation for Order
     }
 }

@@ -1,22 +1,20 @@
 import java.util.ArrayList;
 
-/**
- * WarehouseMulticaster (Behavioral - Observer Pattern)
- * Manages a list of observers and multicasts notifications to all of them.
- */
-public class WarehouseMulticaster implements ObserverIF {
+public class WarehouseMulticaster implements ObserverIF, ObservableIF {
     private ArrayList<ObserverIF> observers;
 
     public WarehouseMulticaster() {
         observers = new ArrayList<>();
     }
 
+    @Override
     public void addObserver(ObserverIF o) {
         if (!observers.contains(o)) {
             observers.add(o);
         }
     }
 
+    @Override
     public void removeObserver(ObserverIF o) {
         observers.remove(o);
     }
@@ -26,9 +24,5 @@ public class WarehouseMulticaster implements ObserverIF {
         for (ObserverIF observer : new ArrayList<>(observers)) {
             observer.notify(event, source);
         }
-    }
-
-    public int getObserverCount() {
-        return observers.size();
     }
 }
