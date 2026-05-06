@@ -18,14 +18,13 @@ public class Vehicle extends WarehouseComposite {
     public static final int STATUS_DEPARTED    = 2;
     public static final int STATUS_MAINTENANCE = 3;
 
-    private int    status;
     private double capacityKg;
     private int    condition; // editable condition value (0-100)
 
     private List<Order> orders;
 
     public Vehicle(double capacityKg) {
-        this.id = generateId();
+        super();
         this.capacityKg  = capacityKg;
         this.condition   = 100;
         this.status      = STATUS_DOCKED;

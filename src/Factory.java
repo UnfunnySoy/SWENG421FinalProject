@@ -13,7 +13,7 @@ public class Factory {
         compositePool = new HashMap<>();
     }
 
-    public Vehicle getOrCreateVehicle(String vehicleId, String driverName, double capacityKg) {
+    public Vehicle getOrCreateVehicle(String vehicleId, double capacityKg) {
         return vehiclePool.computeIfAbsent(vehicleId,
                 id -> new Vehicle(capacityKg));
     }

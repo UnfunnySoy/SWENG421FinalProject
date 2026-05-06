@@ -1,38 +1,31 @@
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * PackageWrapper (Structural - Decorator Pattern)
- * Wraps one or more Package objects together into a single shipment unit.
- * Because it aggregates packages it can report total weight and expose
- * individual sub-packages. It also carries the inner-most ShippingInfo of
- * the first package as a convenience accessor.
- */
-public class PackageWrapper {
+public class PackageWrapper extends Package {
     private Package pack;
     private Item item;
 
     public PackageWrapper(Item item) {
+        this.pack = null;
         this.item = item;
     }
 
-    public void addItem(Item item) {
-        if (pack != null) return;
-        if (item != null) return;
-
+    @Override
+    public double getWeight(){
+        return item.getWeight() + pack.getWeight();
     }
 
-    public List<Package> getPackages() {
-        return packages;
+    @Override
+    public void addItem(Item item) {        //TODO: this needs to preserve ShippingInfo
+        if (pack != null) pack.addItem(item);
+        pack = new PackageWrapper(item);
     }
 
-    public double getWeight() {
-
+    @Override
+    public ShippingInfo getShippingInfo(){
+        return pack.getShippingInfo();
     }
 
-    public String getWrapperId() { return wrapperId; }
-
-    public ShippingInfo getShippingInfo() {
-
+    @Override
+    public void updateShippingInfo(ShippingInfo info){
+        if (pack == null) pack = info;
+        pack.updateShippingInfo(info);
     }
 }

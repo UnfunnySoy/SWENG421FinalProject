@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class Item extends WarehouseComposite {
-    // Status constants
     public static final int STATUS_IN_STORAGE  = 0;
     public static final int STATUS_IN_TRANSIT  = 1;
     public static final int STATUS_DELIVERED   = 2;
@@ -10,7 +9,7 @@ public class Item extends WarehouseComposite {
     private double weight;
 
     public Item(String name, double weight) {
-
+        super();
         this.name    = name;
         this.weight  = weight;
         this.status  = STATUS_IN_STORAGE;

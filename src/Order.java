@@ -23,15 +23,21 @@ public class Order extends WarehouseComposite implements ObservableIF {
     public static final int STATUS_PREPARED = 1;
     public static final int STATUS_SHIPPED  = 2;
 
-    private int orderType;
+    private int orderType;      //TODO: remove this type and fix throughout
 
     private List<PackageWrapper> packages;
 
-    public Order(String orderId, int orderType, String deliveryLocation,
-                 String deliveryPerson, WarehouseComposite warehouse) {
+    public Order(int orderType) {
+        super();
         this.orderType        = orderType;
         this.status           = STATUS_PENDING;
         this.packages         = new ArrayList<>();
+    }
+
+    @Override
+    protected String generateId(){
+        String baseId = super.generateId();
+        return "O" + baseId;
     }
 
     public void addPackage(PackageWrapper p)    { packages.add(p); }
@@ -50,7 +56,6 @@ public class Order extends WarehouseComposite implements ObservableIF {
         setStatus(STATUS_PREPARED);
     }
 
-    // ---- ObservableIF ----
     @Override public void addObserver(ObserverIF o)    { multicaster.addObserver(o); }
     @Override public void removeObserver(ObserverIF o) { multicaster.removeObserver(o); }
 

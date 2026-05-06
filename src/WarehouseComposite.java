@@ -8,12 +8,9 @@ public abstract class WarehouseComposite implements ObservableIF {
     protected int status;
     protected WarehouseMulticaster multicaster;
 
-    public static final int STATUS_ACTIVE   = 0;
-    public static final int STATUS_INACTIVE = 1;
-
     public WarehouseComposite() {
         this.id = generateId();
-        this.status      = STATUS_ACTIVE;
+        this.status = 0;
         this.multicaster = new WarehouseMulticaster();
     }
 
