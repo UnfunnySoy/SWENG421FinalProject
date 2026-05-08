@@ -1,12 +1,14 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Order (Composite leaf / Observable)
+ * model.Order (Composite leaf / Observable)
  * Represents a customer order containing one or more PackageWrappers.
- * Implements ObservableIF so the warehouse can observe its status.
+ * Implements model.ObservableIF so the warehouse can observe its status.
  *
- * Order types (set at creation by Factory):
+ * model.Order types (set at creation by model.Factory):
  *   TYPE_RETAIL    = 0
  *   TYPE_WHOLESALE = 1
  *
@@ -62,6 +64,6 @@ public class Order extends WarehouseComposite implements ObservableIF {
     @Override
     public void doAction() {
         multicaster.notify();
-        //TODO: add action implementation for Order
+        //TODO: add action implementation for model.Order
     }
 }

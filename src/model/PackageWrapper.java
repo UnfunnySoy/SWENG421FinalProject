@@ -1,3 +1,5 @@
+package model;
+
 public class PackageWrapper extends Package {
     private Package pack;
     private Item item;
@@ -13,7 +15,7 @@ public class PackageWrapper extends Package {
     }
 
     @Override
-    public void addItem(Item item) {        //TODO: this needs to preserve ShippingInfo
+    public void addItem(Item item) {        //TODO: this needs to preserve model.ShippingInfo
         if (pack != null) pack.addItem(item);
         pack = new PackageWrapper(item);
     }

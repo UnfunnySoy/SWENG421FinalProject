@@ -1,10 +1,12 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Vehicle (Composite leaf / Observable)
+ * model.Vehicle (Composite leaf / Observable)
  * Represents a shipping vehicle (truck, van, etc.) docked at a warehouse.
- * Implements ObservableIF so the warehouse can track its status changes.
+ * Implements model.ObservableIF so the warehouse can track its status changes.
  *
  * Status codes:
  *   STATUS_DOCKED      = 0
@@ -54,7 +56,7 @@ public class Vehicle extends WarehouseComposite {
 
     @Override
     public void doAction() {
-        //TODO: add action implementation for Vehicle
+        //TODO: add action implementation for model.Vehicle
         multicaster.notify();
     }
 

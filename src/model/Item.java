@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package model;
 
 public class Item extends WarehouseComposite {
     public static final int STATUS_IN_STORAGE  = 0;
@@ -31,7 +31,7 @@ public class Item extends WarehouseComposite {
 
     @Override
     public void doAction() {
-        //TODO: add action implementation for Item
+        //TODO: add action implementation for model.Item
         multicaster.notify();
     }
 }

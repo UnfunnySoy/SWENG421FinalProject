@@ -1,3 +1,5 @@
+package model;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,9 +21,9 @@ public class Factory {
     }
 
     /* //TODO: this need to be changed to return a concrete object
-    public WarehouseComposite getOrCreateComposite(String name, String location) {
+    public model.WarehouseComposite getOrCreateComposite(String name, String location) {
         return compositePool.computeIfAbsent(name,
-                n -> new WarehouseComposite());
+                n -> new model.WarehouseComposite());
     }
      */
 }

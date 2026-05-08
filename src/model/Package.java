@@ -1,3 +1,5 @@
+package model;
+
 public abstract class Package {
     public abstract double getWeight();
     public abstract void addItem(Item item);

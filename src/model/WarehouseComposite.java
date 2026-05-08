@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+package model;
 
 public abstract class WarehouseComposite implements ObservableIF {
     private static int idDisc = 1000;

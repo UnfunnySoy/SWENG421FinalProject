@@ -1,8 +1,10 @@
+package model;
+
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * WarehouseLock (Concurrence - Read/Write Lock Pattern)
+ * model.WarehouseLock (Concurrence - Read/Write Lock Pattern)
  * Ensures thread-safe access to warehouse inventory.
  * Multiple readers can hold the read lock simultaneously.
  * Only one writer can hold the write lock, blocking all readers.

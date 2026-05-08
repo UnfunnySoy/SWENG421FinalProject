@@ -1,11 +1,13 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Warehouse (Structural - Composite Root)
- * The top-level container. Holds multiple WarehouseComposite nodes.
- * Owns the WarehouseLock and the Factory (both shared across composites).
- * Implements ObserverIF so it can log events from its composites.
+ * model.Warehouse (Structural - Composite Root)
+ * The top-level container. Holds multiple model.WarehouseComposite nodes.
+ * Owns the model.WarehouseLock and the model.Factory (both shared across composites).
+ * Implements model.ObserverIF so it can log events from its composites.
  */
 public class Warehouse implements ObserverIF {
     private String name;
@@ -37,7 +39,7 @@ public class Warehouse implements ObserverIF {
         elements.add(w);
         w.addObserver(this);   // warehouse observes the composite
         observed.add(w);
-        logEvent(w.getName(), "WarehouseComposite '" + w.getName() + "' registered");
+        logEvent(w.getName(), "model.WarehouseComposite '" + w.getName() + "' registered");
     }
 
     public void remove(WarehouseComposite w) {
@@ -77,7 +79,7 @@ public class Warehouse implements ObserverIF {
         }
     }
 
-    // ---- ObserverIF ----
+    // ---- model.ObserverIF ----
     @Override
     public void notify(String event, String source) {
         logEvent(source, event);
@@ -98,7 +100,7 @@ public class Warehouse implements ObserverIF {
     public String        getCity()    { return city; }
     public String        getState()   { return state; }
     public WarehouseLock getLock()    { return lock; }
-    public Factory       getFactory() { return factory; }
+    public Factory getFactory() { return factory; }
 
     public double getTotalWeight() {
         double t = 0;
