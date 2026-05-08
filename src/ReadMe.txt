@@ -1,0 +1,1 @@
+ok so to use it, just go to the Main file in VS code, right click anywhere, and click run java. if you have java locally on your pc, you should be able to just click and use the jar file to run it. 
